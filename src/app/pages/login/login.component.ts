@@ -2,6 +2,7 @@ import { Component, inject } from "@angular/core";
 import { FormsModule } from "@angular/forms";
 import { Router } from '@angular/router';
 import { AuthService } from "../../services/auth.service";
+import { Rol } from "../../models";
 
 @Component({
     selector: 'app-login',
@@ -26,9 +27,13 @@ export class LoginComponent {
 
         this.authService.login({username: this.username, password: this.password})
             .subscribe({
-                next: () => {
+                next: (user) => {
                     this.isLoading = false;
-                    this.router.navigate(['/dashboard']);
+                    if (user.rol === Rol.ADMIN) {
+                        this.router.navigate(['/admin']);
+                    } else {
+                        this.router.navigate(['/dashboard']);
+                    }
                 },
                 error: (err) => {
                     this.isLoading = false;

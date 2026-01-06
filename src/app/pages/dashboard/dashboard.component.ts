@@ -30,7 +30,6 @@ export class DashboardComponent implements OnInit {
     cargarBotones() {
         this.ticketService.getServicios().subscribe({
             next: (data) => {
-                console.log('Servicios cargados:', data);
                 this.servicios = data.sort((a, b) => a.id - b.id);
                 this.cd.detectChanges();
             },

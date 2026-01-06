@@ -22,4 +22,23 @@ export class TicketService {
             {}
         );
     }
+
+    // Administrador
+    getReporteGlobal(): Observable<any[]> {
+        return this.http.get<any[]>(`${this.apiUrl}/solicitudes/reporte-global`);
+    }
+
+    getHistorialUsuario(username: string): Observable<SolicitudDTO[]> {
+        return this.http.get<SolicitudDTO[]>(`${this.apiUrl}/solicitudes/historial?username=${username}`);
+    }
+
+    // ... dentro de TicketService
+    getSolicitudesPorServicio(nombreServicio: string): Observable<SolicitudDTO[]> {
+        return this.http.get<SolicitudDTO[]>(`${this.apiUrl}/solicitudes/por-servicio?nombre=${nombreServicio}`);
+    }
+
+    // Agregar este método
+    getTodasLasSolicitudes(): Observable<SolicitudDTO[]> {
+        return this.http.get<SolicitudDTO[]>(`${this.apiUrl}/solicitudes`);
+    }
 }

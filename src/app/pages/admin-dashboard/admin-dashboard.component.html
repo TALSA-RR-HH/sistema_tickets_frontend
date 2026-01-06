@@ -1,0 +1,120 @@
+<div class="admin-container">
+    <header class="admin-header">
+        <h2>Panel Administrativo</h2>
+        <div class="user-info">
+            <span>{{ currentUser?.nombreCompleto }}</span>
+            <button (click)="logout()" class="btn-small">Salir</button>
+        </div>
+    </header>
+
+    <section class="stats-section">
+        <div class="cards-grid">
+            @for (stat of stats; track stat.nombre) {
+                <div class="stat-card">
+                    <div class="stat-number">{{ stat.cantidad }}</div>
+                    <div class="stat-label">{{ stat.nombre }}</div>
+                </div>
+            }
+        </div>
+    </section>
+
+    <hr class="separator">
+
+    <section class="table-section">
+        <div class="toolbar">
+            <h3>Historial de Solicitudes</h3>
+            <button (click)="exportarCSV()" class="btn-export">
+                <i class="fas fa-file-csv"></i> Exportar CSV
+            </button>
+        </div>
+
+        @if (resumenDinamico.length > 0) {
+            <div class="summary-bar">
+                <span class="summary-title">Resumen de selección:</span>
+                <div class="summary-tags">
+                    @for (item of resumenDinamico; track item.nombre) {
+                        <div class="summary-tag">
+                            <span class="tag-name">{{ item.nombre }}</span>
+                            <span class="tag-count">{{ item.cantidad }}</span>
+                        </div>
+                    }
+                </div>
+            </div>
+        }
+
+        <div class="filters-bar">
+            <div class="filter-group">
+                <input 
+                    type="text" 
+                    placeholder="Buscar por DNI o Nombre..." 
+                    [(ngModel)]="filtroTexto" 
+                    (input)="aplicarFiltros()">
+            </div>
+
+            <div class="filter-group">
+                <select [(ngModel)]="filtroServicio" (change)="aplicarFiltros()">
+                    <option value="">Todos los Servicios</option>
+                    @for (s of listaServicios; track s.id) {
+                        <option [value]="s.nombreServicio">{{ s.nombreServicio }}</option>
+                    }
+                </select>
+            </div>
+
+            <div class="filter-group right">
+                <label>Filas:</label>
+                <select [(ngModel)]="itemsPorPagina" (change)="aplicarFiltros()" class="page-size-select">
+                    @for (opt of opcionesPagina; track opt) {
+                        <option [value]="opt">{{ opt }}</option>
+                    }
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="data-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Empleado</th>
+                        <th>DNI</th>
+                        <th>Servicio</th>
+                        <th>Fecha y Hora</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (row of registrosPaginados; track row.id) {
+                        <tr>
+                            <td>#{{ row.id }}</td>
+                            <td>{{ row.usuarioNombre }}</td>
+                            <td>{{ row.username }}</td>
+                            <td><span class="badge">{{ row.nombreServicio }}</span></td>
+                            <td>{{ row.fechaHora | date:'medium' }}</td>
+                        </tr>
+                    }
+                    @if (registrosPaginados.length === 0) {
+                        <tr>
+                            <td colspan="5" class="text-center">No se encontraron registros.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="pagination-controls">
+            <span>Mostrando {{ registrosPaginados.length }} de {{ totalItems }} registros</span>
+            
+            <div class="buttons">
+                <button 
+                    [disabled]="paginaActual === 1" 
+                    (click)="cambiarPagina(-1)">Anterior</button>
+                
+                <span class="page-number">Pág {{ paginaActual }} / {{ totalPaginas }}</span>
+                
+                <button 
+                    [disabled]="paginaActual === totalPaginas || totalPaginas === 0" 
+                    (click)="cambiarPagina(1)">Siguiente</button>
+            </div>
+        </div>
+
+    </section>
+</div>
