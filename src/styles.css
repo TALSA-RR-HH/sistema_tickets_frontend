@@ -3,3 +3,5 @@
 @import 'bootstrap/dist/css/bootstrap.min.css';
 /* Importar Iconos */
 @import 'bootstrap-icons/font/bootstrap-icons.css';
+/* Importar FontAwesome */
+@import "@fortawesome/fontawesome-free/css/all.css";
