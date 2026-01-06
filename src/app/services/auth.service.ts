@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { UsuarioDTO } from '../models';
 import { Router } from '@angular/router';
+import { environment } from '../../environments/environment';
 
 @Injectable({
     providedIn: 'root'
@@ -12,7 +13,7 @@ export class AuthService {
     private http = inject(HttpClient);
     private router = inject(Router);
 
-    private apiUrl = 'http://localhost:8080/api/usuarios';
+    private apiUrl = `${environment.apiUrl}/usuarios`;
 
     currentUser = signal<UsuarioDTO | null>(this.getUserFromStorage());
 
