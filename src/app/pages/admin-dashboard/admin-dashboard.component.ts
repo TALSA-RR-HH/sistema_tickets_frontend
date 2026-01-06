@@ -97,6 +97,8 @@ export class AdminDashboardComponent implements OnInit {
     }
 
     actualizarPaginacion() {
+        this.itemsPorPagina = Number(this.itemsPorPagina);
+
         this.totalPaginas = Math.ceil(this.totalItems / this.itemsPorPagina);
     
         const inicio = (this.paginaActual - 1) * this.itemsPorPagina;

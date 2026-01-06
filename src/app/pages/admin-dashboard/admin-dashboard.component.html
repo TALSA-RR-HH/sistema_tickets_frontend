@@ -64,7 +64,7 @@
                 <label>Filas:</label>
                 <select [(ngModel)]="itemsPorPagina" (change)="aplicarFiltros()" class="page-size-select">
                     @for (opt of opcionesPagina; track opt) {
-                        <option [value]="opt">{{ opt }}</option>
+                        <option [ngValue]="opt">{{ opt }}</option>
                     }
                 </select>
             </div>
